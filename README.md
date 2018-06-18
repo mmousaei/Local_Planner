@@ -54,7 +54,7 @@ make -jN # N is the maximum number of parallel compile jobs
 sudo make install
 ```
 
-To install OPML libraries, run the following command:
+To install OMPL libraries, run the following command:
 
 ```
 git clone https://github.com/ompl/omplapp.git
@@ -66,4 +66,8 @@ cmake ../..
 make -jN # N is the maximum number of parallel compile jobs
 sudo make install
 ```
+
+## How to run
+
+After running rosnode ompl_planner_node, publish start and goal states in SE3 and the planner will start working.
 
