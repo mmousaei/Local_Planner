@@ -112,11 +112,17 @@ void plan()
 
      // create a random start state
      ob::ScopedState<> start(space);
-     start.random();
+     // start.random();
+     start->as<ompl::base::SE3StateSpace::StateType>()->setXYZ(.1,.2,.3);
+     start->as<ompl::base::SE3StateSpace::StateType>()->rotation().setAxisAngle(0, 0, 1, 0);;
+     std::cout << "start = " <<start<< '\n';
 
      // create a random goal state
      ob::ScopedState<> goal(space);
-     goal.random();
+     // goal.random();
+     goal->as<ompl::base::SE3StateSpace::StateType>()->setXYZ(.4,.5,.6);
+     goal->as<ompl::base::SE3StateSpace::StateType>()->rotation().setAxisAngle(0, 0, 1, 0);;
+     std::cout << "goal = " <<goal<< '\n';
 
      // set the start and goal states
      ss.setStartAndGoalStates(start, goal);
