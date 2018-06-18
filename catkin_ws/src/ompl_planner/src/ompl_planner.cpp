@@ -1,15 +1,8 @@
-#include <ompl/base/SpaceInformation.h>
-#include <ompl/base/spaces/SE3StateSpace.h>
-#include <ompl/geometric/planners/rrt/RRTConnect.h>
-#include <ompl/geometric/SimpleSetup.h>
+#include"ompl_planner.h"
 
-#include <ompl/config.h>
-#include <iostream>
+Planner::Planner(){};
 
-namespace ob = ompl::base;
-namespace og = ompl::geometric;
-
-bool isStateValid(const ob::State *state)
+bool Planner::isStateValid(const ob::State *state)
 {
    // cast the abstract state type to the type we expect
    const auto *se3state = state->as<ob::SE3StateSpace::StateType>();
@@ -27,7 +20,7 @@ bool isStateValid(const ob::State *state)
    return (const void*)rot != (const void*)pos;
 }
 
-void plan()
+void Planner::plan(nav_msgs::Odometry start_nav, nav_msgs::Odometry goal_nav)
 {
    // construct the state space we are planning in
    auto space(std::make_shared<ob::SE3StateSpace>());
@@ -92,7 +85,7 @@ void plan()
          std::cout << "No solution found" << std::endl;
  }
 
- void planWithSimpleSetup()
+ void Planner::planWithSimpleSetup(nav_msgs::Odometry start_nav, nav_msgs::Odometry goal_nav)
  {
      // construct the state space we are planning in
      auto space(std::make_shared<ob::SE3StateSpace>());
@@ -113,15 +106,15 @@ void plan()
      // create a random start state
      ob::ScopedState<> start(space);
      // start.random();
-     start->as<ompl::base::SE3StateSpace::StateType>()->setXYZ(.1,.2,.3);
-     start->as<ompl::base::SE3StateSpace::StateType>()->rotation().setAxisAngle(0, 0, 1, 0);;
+     start->as<ompl::base::SE3StateSpace::StateType>()->setXYZ(start_nav.pose.pose.position.x,start_nav.pose.pose.position.y,start_nav.pose.pose.position.z);
+     start->as<ompl::base::SE3StateSpace::StateType>()->rotation().setAxisAngle(start_nav.pose.pose.orientation.x, start_nav.pose.pose.orientation.y, start_nav.pose.pose.orientation.z, start_nav.pose.pose.orientation.w);
      std::cout << "start = " <<start<< '\n';
 
      // create a random goal state
      ob::ScopedState<> goal(space);
      // goal.random();
-     goal->as<ompl::base::SE3StateSpace::StateType>()->setXYZ(.4,.5,.6);
-     goal->as<ompl::base::SE3StateSpace::StateType>()->rotation().setAxisAngle(0, 0, 1, 0);;
+     goal->as<ompl::base::SE3StateSpace::StateType>()->setXYZ(goal_nav.pose.pose.position.x,goal_nav.pose.pose.position.y,goal_nav.pose.pose.position.z);
+     goal->as<ompl::base::SE3StateSpace::StateType>()->rotation().setAxisAngle(goal_nav.pose.pose.orientation.x, goal_nav.pose.pose.orientation.y, goal_nav.pose.pose.orientation.z, goal_nav.pose.pose.orientation.w);
      std::cout << "goal = " <<goal<< '\n';
 
      // set the start and goal states
@@ -145,15 +138,15 @@ void plan()
          std::cout << "No solution found" << std::endl;
  }
 
- int main(int /*argc*/, char ** /*argv*/)
- {
-     std::cout << "OMPL version: " << OMPL_VERSION << std::endl;
-
-     plan();
-
-     std::cout << std::endl << std::endl;
-
-     planWithSimpleSetup();
-
-     return 0;
- }
+ // int main(int /*argc*/, char ** /*argv*/)
+ // {
+ //     std::cout << "OMPL version: " << OMPL_VERSION << std::endl;
+ //
+ //     plan();
+ //
+ //     std::cout << std::endl << std::endl;
+ //
+ //     planWithSimpleSetup();
+ //
+ //     return 0;
+ // }

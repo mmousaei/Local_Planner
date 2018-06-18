@@ -10,6 +10,8 @@ add_compile_options(-std=c++11)
 find_package(catkin REQUIRED
 roscpp
 std_msgs
+nav_msgs
+tf
 )
 
 
@@ -233,7 +235,7 @@ add_definitions(${EIGEN3_DEFINITIONS} ${OMPL_DEFINITIONS})
 #add_executable(pcl_subscriber pcl_subscriber.cpp)
 #target_link_libraries(pcl_subscriber ${catkin_LIBRARIES} ${PCL_LIBRARIES})
 
-add_executable(${PROJECT_NAME}_node src/ompl_planner.cpp)
+add_executable(${PROJECT_NAME}_node src/${PROJECT_NAME}_node src/ompl_planner.cpp)
 #add_dependencies(safeguard_main safeguard_main_generate_messages_cpp)
 target_link_libraries(${PROJECT_NAME}_node ${catkin_LIBRARIES} ${EIGEN3_LIBRARIES} ${OMPL_LIBRARIES})
 
