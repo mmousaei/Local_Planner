@@ -69,5 +69,5 @@ sudo make install
 
 ## How to run
 
-After running rosnode ompl_planner_node, publish start and goal states in SE3 and the planner will start working.
+After running rosnode ompl_planner_node, publish start and goal states in SE3 (as nav/msgs) and the planner will start working.
 
